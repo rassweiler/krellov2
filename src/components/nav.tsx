@@ -1,18 +1,9 @@
-import { type NextPage } from 'next';
-import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
 import { signIn, signOut, useSession } from 'next-auth/react';
 
-import { trpc } from '../utils/trpc';
-
 const Navbar: React.FC = () => {
 	const { data: sessionData } = useSession();
-
-	const { data: secretMessage } = trpc.auth.getSecretMessage.useQuery(
-		undefined, // no input
-		{ enabled: sessionData?.user !== undefined }
-	);
 
 	return (
 		<nav className='bg-gray-800'>
