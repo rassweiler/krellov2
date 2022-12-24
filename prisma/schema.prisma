@@ -14,18 +14,14 @@ datasource db {
    url      = env("DATABASE_URL")
 }
 
-model Example {
-   id        String   @id @default(cuid())
-   createdAt DateTime @default(now())
-   updatedAt DateTime @updatedAt
-}
-
 model Board {
    id     String @id @default(cuid())
    name   String
    userId String
    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
    lists  List[]
+	createdAt DateTime @default(now())
+   updatedAt DateTime @updatedAt
 }
 
 model List {
@@ -34,6 +30,8 @@ model List {
    boardId String
    board   Board  @relation(fields: [boardId], references: [id], onDelete: Cascade)
    cards   Card[]
+	createdAt DateTime @default(now())
+   updatedAt DateTime @updatedAt
 }
 
 model Card {
@@ -42,6 +40,7 @@ model Card {
    list      List     @relation(fields: [listId], references: [id], onDelete: Cascade)
    name      String
    createdAt DateTime @default(now())
+   updatedAt DateTime @updatedAt
 }
 
 // Necessary for Next auth
