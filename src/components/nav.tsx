@@ -27,8 +27,8 @@ const Navbar: React.FC = () => {
 								aria-hidden='true'
 							>
 								<path
-									stroke-linecap='round'
-									stroke-linejoin='round'
+									strokeLinecap='round'
+									strokeLinejoin='round'
 									d='M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5'
 								/>
 							</svg>
@@ -37,13 +37,13 @@ const Navbar: React.FC = () => {
 								xmlns='http://www.w3.org/2000/svg'
 								fill='none'
 								viewBox='0 0 24 24'
-								stroke-width='1.5'
+								strokeWidth='1.5'
 								stroke='currentColor'
 								aria-hidden='true'
 							>
 								<path
-									stroke-linecap='round'
-									stroke-linejoin='round'
+									strokeLinecap='round'
+									strokeLinejoin='round'
 									d='M6 18L18 6M6 6l12 12'
 								/>
 							</svg>
@@ -68,17 +68,20 @@ const Navbar: React.FC = () => {
 						</Link>
 						<div className='hidden sm:ml-6 sm:block'>
 							<div className='flex space-x-4'>
-								{sessionData ? (
-									<Link
-										href='/boards'
-										className='rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white'
-										aria-current='page'
-									>
-										Boards
-									</Link>
-								) : (
-									<></>
-								)}
+								<Link
+									href='https://portfolio.kylerassweiler.ca'
+									className='rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white'
+									aria-current='page'
+								>
+									Portfolio
+								</Link>{' '}
+								<Link
+									href='https://github.com/rassweiler/'
+									className='rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white'
+									aria-current='page'
+								>
+									Github
+								</Link>
 							</div>
 						</div>
 					</div>
