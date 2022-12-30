@@ -6,7 +6,7 @@ const Navbar: React.FC = () => {
 	const { data: sessionData } = useSession();
 
 	return (
-		<nav className='bg-gray-800'>
+		<nav className='bg-slate-800'>
 			<div className='mx-auto max-w-7xl px-2 sm:px-6 lg:px-8'>
 				<div className='relative flex h-16 items-center justify-between'>
 					<div className='absolute inset-y-0 left-0 flex items-center sm:hidden'>
@@ -70,14 +70,14 @@ const Navbar: React.FC = () => {
 							<div className='flex space-x-4'>
 								<Link
 									href='https://portfolio.kylerassweiler.ca'
-									className='rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white'
+									className='rounded-md bg-slate-900 px-3 py-2 text-sm font-medium text-white'
 									aria-current='page'
 								>
 									Portfolio
 								</Link>{' '}
 								<Link
 									href='https://github.com/rassweiler/'
-									className='rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white'
+									className='rounded-md bg-slate-900 px-3 py-2 text-sm font-medium text-white'
 									aria-current='page'
 								>
 									Github
@@ -109,7 +109,7 @@ const Navbar: React.FC = () => {
 											viewBox='0 0 24 24'
 											strokeWidth={1.5}
 											stroke='currentColor'
-											className='h-6 w-6'
+											className='h-6 w-6 text-red-400'
 										>
 											<path
 												strokeLinecap='round'
@@ -124,7 +124,7 @@ const Navbar: React.FC = () => {
 											viewBox='0 0 24 24'
 											strokeWidth={1.5}
 											stroke='currentColor'
-											className='h-6 w-6'
+											className='h-6 w-6 text-green-400'
 										>
 											<path
 												strokeLinecap='round'

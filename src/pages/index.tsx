@@ -1,6 +1,5 @@
 import { type NextPage } from 'next';
 import Head from 'next/head';
-import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import Navbar from '../components/nav';
 import BoardModal from '../components/board-modal';
@@ -21,7 +20,7 @@ const Home: NextPage = () => {
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
 			<Navbar />
-			<main className='flex min-h-screen flex-col items-center bg-gradient-to-b from-gray-600 to-[#2a0a08]'>
+			<main className='flex min-h-screen flex-col items-center bg-gradient-to-b from-[#2C2C45] to-[#060723]'>
 				<div className='container flex flex-col items-center justify-center gap-12 px-4 py-16 '>
 					<h1 className='text-sm font-extrabold tracking-tight text-white sm:text-[5rem]'>
 						<span className='text-[#d8534e]'>Krello</span> - A Trello Clone
@@ -46,12 +45,7 @@ const Boards: React.FC = () => {
 	const [input, setInput] = useState<string>('');
 	const [boards, setBoards] = useState<Board[]>([]);
 	const [currentBoard, setCurrentBoard] = useState<string>('');
-	const utils = trpc.useContext();
-	const mutation = trpc.board.createBoard.useMutation({
-		onSuccess: (data, variables, context) => {
-			console.log('success');
-		},
-	});
+	const mutation = trpc.board.createBoard.useMutation();
 
 	const createBoard = async () => {
 		if (input != '') {

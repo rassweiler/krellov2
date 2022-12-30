@@ -13,7 +13,7 @@ const CardModal: React.FC<CardModalProps> = ({ card }) => {
 	};
 	if (card) {
 		return (
-			<div className='flex w-full flex-col overflow-hidden rounded-xl bg-[#423159] text-white overflow-hidden'>
+			<div className='flex w-full flex-col rounded-xl bg-[#423159] text-white overflow-hidden'>
 				<div className='flex flex-row justify-between bg-[#110422] p-2'>
 					<h3 className='text-l self-center font-bold'>{card?.name}</h3>{' '}
 					<div className='flex flex-row'>
@@ -40,7 +40,7 @@ const CardModal: React.FC<CardModalProps> = ({ card }) => {
 					</div>
 				</div>
 				<div className='w-full p-2 text-white'>
-					asdasdasdasd {card.body?.toString()}
+					{card.body}
 				</div>
 			</div>
 		);
