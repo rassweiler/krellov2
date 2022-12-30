@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { router, publicProcedure, protectedProcedure } from '../trpc';
+import { router, protectedProcedure } from '../trpc';
 
 export const boardRouter = router({
 	getAllBoards: protectedProcedure.query(({ ctx }) => {
@@ -18,6 +18,13 @@ export const boardRouter = router({
 					id: input.boardId,
 					userId: ctx.session.user.id,
 				},
+				include: {
+					lists: {
+						include: {
+							cards: true,
+						},
+					},
+				},
 			});
 		}),
 
@@ -33,7 +40,23 @@ export const boardRouter = router({
 					data: {
 						name: input.name,
 						user: { connect: { id: ctx.session.user.id } },
-						//	userId: ctx.session.user.id,
+					},
+				});
+			} catch (error) {
+				console.log(error);
+			}
+		}),
+	deleteBoard: protectedProcedure
+		.input(
+			z.object({
+				boardId: z.string(),
+			})
+		)
+		.mutation(async ({ ctx, input }) => {
+			try {
+				await ctx.prisma.board.delete({
+					where: {
+						id: input.boardId,
 					},
 				});
 			} catch (error) {
