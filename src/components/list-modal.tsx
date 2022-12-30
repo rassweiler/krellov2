@@ -1,24 +1,19 @@
-import { Dispatch, SetStateAction, useState } from 'react';
+import { useState } from 'react';
 import { trpc } from '../utils/trpc';
 import CardModal from './card-modal';
 
 interface ListModalProps {
 	listId: string;
-	boardId: string;
 }
 
-const ListModal: React.FC<ListModalProps> = ({ listId, boardId }) => {
+const ListModal: React.FC<ListModalProps> = ({ listId }) => {
 	const [inputName, setInputName] = useState<string>('');
 	const [inputBody, setInputBody] = useState<string>('');
 	const { data: list, isLoading } = trpc.list.getList.useQuery({
 		listId: listId,
 	});
 
-	const mutation = trpc.card.createCard.useMutation({
-		onSuccess: (data, variables, context) => {
-			console.log('success');
-		},
-	});
+	const mutation = trpc.card.createCard.useMutation();
 
 	const createCard = async () => {
 		if (inputName != '') {
@@ -36,7 +31,6 @@ const ListModal: React.FC<ListModalProps> = ({ listId, boardId }) => {
 	if (isLoading) {
 		return (
 			<div className='max flex flex-col justify-center gap-4 rounded-xl bg-white/10 p-4 text-white'>
-				{' '}
 				Loading list info...
 			</div>
 		);
@@ -44,10 +38,10 @@ const ListModal: React.FC<ListModalProps> = ({ listId, boardId }) => {
 
 	if (list) {
 		return (
-			<div className='flex w-1/3 min-w-[30%] flex-col gap-4 rounded-xl border border-slate-50 bg-gray-500 text-white'>
-				<div className='flex flex-row justify-between rounded-xl bg-gray-700 p-2'>
+			<div className='flex w-1/3 min-w-[30%] flex-col gap-4 overflow-hidden rounded-xl border-2 border-[#031420] bg-[#2D4454] text-white'>
+				<div className='flex flex-row justify-between bg-[#031420] p-2'>
 					<div className='flex flex-row'>
-						<h3 className='self-center text-xl font-bold'>{list?.name}</h3>{' '}
+						<h3 className='self-center text-xl font-bold'>{list?.name}</h3>
 					</div>
 					<div className='flex flex-row gap-2'>
 						<button
@@ -61,7 +55,7 @@ const ListModal: React.FC<ListModalProps> = ({ listId, boardId }) => {
 								viewBox='0 0 24 24'
 								strokeWidth={1.5}
 								stroke='currentColor'
-								className='h-6 w-6'
+								className='h-5 w-5'
 							>
 								<path
 									strokeLinecap='round'
@@ -73,12 +67,12 @@ const ListModal: React.FC<ListModalProps> = ({ listId, boardId }) => {
 					</div>
 				</div>
 				<div className='flex w-full flex-col gap-1 p-2'>
-					Add New Card
+					<div className='w-full text-center'>Add New Card</div>
 					<label htmlFor='name'>Name</label>
 					<input
 						type='text'
 						name='name'
-						className='p-1 text-black'
+						className='p-1 rounded-md text-black'
 						value={inputName}
 						onChange={(e) => setInputName(e.target.value)}
 					/>
@@ -86,14 +80,14 @@ const ListModal: React.FC<ListModalProps> = ({ listId, boardId }) => {
 					<input
 						type='text'
 						name='body'
-						className='p-1 text-black'
+						className='p-1 rounded-md text-black'
 						value={inputBody}
 						onChange={(e) => setInputBody(e.target.value)}
 					/>
 					<button
 						type='button'
 						onClick={() => createCard()}
-						className='rounded-md bg-green-400 p-2 hover:bg-green-600 hover:text-white'
+						className='flex rounded-md bg-green-400 p-2 hover:bg-green-600 hover:text-white justify-center'
 					>
 						<svg
 							xmlns='http://www.w3.org/2000/svg'
@@ -101,7 +95,7 @@ const ListModal: React.FC<ListModalProps> = ({ listId, boardId }) => {
 							viewBox='0 0 24 24'
 							strokeWidth={1.5}
 							stroke='currentColor'
-							className='h-6 w-6'
+							className='h-5 w-5'
 						>
 							<path
 								strokeLinecap='round'
@@ -111,7 +105,7 @@ const ListModal: React.FC<ListModalProps> = ({ listId, boardId }) => {
 						</svg>
 					</button>
 				</div>
-				<div className='flex flex-col gap-2'>
+				<div className='flex flex-col gap-2 p-2'>
 					{list.cards.map((card) => {
 						return <CardModal key={card.id} card={card} />;
 					})}

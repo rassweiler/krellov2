@@ -1,4 +1,5 @@
-import { Dispatch, SetStateAction, useState } from 'react';
+import { useState } from 'react';
+import type { Dispatch, SetStateAction } from 'react';
 import { trpc } from '../utils/trpc';
 import ListModal from './list-modal';
 
@@ -15,11 +16,7 @@ const BoardModal: React.FC<BoardModalProps> = ({
 	const { data: board, isLoading } = trpc.board.getBoard.useQuery({
 		boardId: currentBoard,
 	});
-	const mutation = trpc.list.createList.useMutation({
-		onSuccess: (data, variables, context) => {
-			console.log('success');
-		},
-	});
+	const mutation = trpc.list.createList.useMutation();
 
 	const createList = async () => {
 		if (input != '') {
@@ -32,6 +29,7 @@ const BoardModal: React.FC<BoardModalProps> = ({
 
 	const deleteBoard = async () => {
 		deleteMutation.mutate({ boardId: currentBoard });
+		setCurrentBoard('');
 	};
 
 	if (isLoading) {
@@ -44,9 +42,9 @@ const BoardModal: React.FC<BoardModalProps> = ({
 	}
 	if (board) {
 		return (
-			<div className='flex w-full flex-col gap-4 rounded-xl bg-white/10 bg-gray-500 text-white'>
-				<div className='flex flex-row justify-between rounded-xl bg-gray-700 p-2'>
-					<div className='flex flex-row'>
+			<div className='flex w-full flex-col gap-4 overflow-hidden rounded-xl bg-[#35365B] text-white'>
+				<div className='flex flex-row justify-between bg-[#060723] p-2'>
+					<div className='flex flex-row gap-2'>
 						<h3 className='self-center text-2xl font-bold'>{board?.name}</h3>{' '}
 						<button
 							type='button'
@@ -70,9 +68,6 @@ const BoardModal: React.FC<BoardModalProps> = ({
 						</button>
 					</div>
 					<div className='flex flex-row gap-2'>
-						<div className='self-center text-sm'>
-							Last Update: {board?.updatedAt.toISOString()}
-						</div>
 						<input
 							className='rounded-md text-black'
 							type='text'
@@ -123,13 +118,7 @@ const BoardModal: React.FC<BoardModalProps> = ({
 				</div>
 				<div className='flex flex-row gap-2 overflow-x-scroll p-2'>
 					{board.lists.map((list) => {
-						return (
-							<ListModal
-								key={list.id}
-								listId={list.id}
-								boardId={currentBoard}
-							/>
-						);
+						return <ListModal key={list.id} listId={list.id} />;
 					})}
 				</div>
 			</div>

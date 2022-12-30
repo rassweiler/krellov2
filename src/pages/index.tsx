@@ -90,18 +90,15 @@ const Boards: React.FC = () => {
 						Add
 					</button>
 				</div>
-				<div className='grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8'>
+				<div className='w-full justify-center gap-4 md:gap-8 flex flex-row flex-wrap'>
 					{boardsData?.map((board) => {
 						return (
 							<div
-								className='flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20'
+								className='flex w-64 h-40 text-center flex-col justify-center gap-4 rounded-xl p-4 text-white bg-[#060723] hover:bg-[#131439] hover:cursor-pointer'
 								onClick={() => setCurrentBoard(board.id)}
 								key={board.id}
 							>
-								<h3 className='text-2xl font-bold'>{board.name}</h3>
-								<div className='text-lg'>
-									{board.updatedAt.toLocaleString()}
-								</div>
+								<h3 className='text-2xl font-bold text-center'>{board.name}</h3>
 							</div>
 						);
 					})}

@@ -1,5 +1,4 @@
-import { Card } from '@prisma/client';
-import { Dispatch, SetStateAction, useState } from 'react';
+import type { Card } from '@prisma/client';
 import { trpc } from '../utils/trpc';
 
 interface CardModalProps {
@@ -14,8 +13,8 @@ const CardModal: React.FC<CardModalProps> = ({ card }) => {
 	};
 	if (card) {
 		return (
-			<div className='flex w-full flex-col overflow-hidden rounded-xl bg-gray-200 text-white'>
-				<div className='flex flex-row justify-between rounded-xl bg-gray-700 p-2'>
+			<div className='flex w-full flex-col overflow-hidden rounded-xl bg-[#423159] text-white overflow-hidden'>
+				<div className='flex flex-row justify-between bg-[#110422] p-2'>
 					<h3 className='text-l self-center font-bold'>{card?.name}</h3>{' '}
 					<div className='flex flex-row'>
 						<button
@@ -29,7 +28,7 @@ const CardModal: React.FC<CardModalProps> = ({ card }) => {
 								viewBox='0 0 24 24'
 								strokeWidth={1.5}
 								stroke='currentColor'
-								className='h-6 w-6'
+								className='h-4 w-4'
 							>
 								<path
 									strokeLinecap='round'
@@ -40,7 +39,7 @@ const CardModal: React.FC<CardModalProps> = ({ card }) => {
 						</button>
 					</div>
 				</div>
-				<div className='w-full bg-gray-200 p-2 text-black'>
+				<div className='w-full p-2 text-white'>
 					asdasdasdasd {card.body?.toString()}
 				</div>
 			</div>
