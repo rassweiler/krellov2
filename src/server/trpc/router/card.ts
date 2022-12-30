@@ -6,7 +6,7 @@ export const cardRouter = router({
 		.input(
 			z.object({
 				name: z.string(),
-			body: z.string(),
+				body: z.string(),
 				listId: z.string(),
 			})
 		)
@@ -14,7 +14,8 @@ export const cardRouter = router({
 			try {
 				await ctx.prisma.card.create({
 					data: {
-						name: input.name, 
+						name: input.name,
+						body: input.body,
 						list: { connect: { id: input.listId } },
 					},
 				});
@@ -32,12 +33,11 @@ export const cardRouter = router({
 			try {
 				await ctx.prisma.card.delete({
 					where: {
-						id: input.cardId, 
+						id: input.cardId,
 					},
 				});
 			} catch (error) {
 				console.log(error);
 			}
 		}),
-
 });
