@@ -6,13 +6,17 @@ This is a kanban project bootstrapped with `create-t3-app`.
 
 To learn next, prisma, trpc, and zod.  
 
+## Demo
+
+A demo is hosted on vercel and prisma: [Demo](https://krello.kylerassweiler.ca)
+
 ## Screenshots
 ![Boards](.documentation/board-list.webp)  
 ![Lists](.documentation/list-list.webp)  
 
 ## Todo:
 - [x] Setup consistent styling.
-- [] Update state on change.
+- [x] Update state on change.
 - [] Add Show/Hide add card form option.
 - [] Add option to edit cards.
 - [] Add option to edit lists.
