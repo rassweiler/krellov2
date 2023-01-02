@@ -1,31 +1,50 @@
+import type { Card } from '@prisma/client';
+import type { Dispatch} from 'react';
+import { useEffect } from 'react';
 import { useState } from 'react';
 import { trpc } from '../utils/trpc';
 import CardModal from './card-modal';
 
 interface ListModalProps {
 	listId: string;
+	deleteList: Dispatch<string>;
 }
 
-const ListModal: React.FC<ListModalProps> = ({ listId }) => {
+const ListModal: React.FC<ListModalProps> = ({ listId, deleteList }) => {
 	const [inputName, setInputName] = useState<string>('');
 	const [inputBody, setInputBody] = useState<string>('');
+	const [cards, setCards] = useState<Card[]>([]);
 	const { data: list, isLoading } = trpc.list.getList.useQuery({
 		listId: listId,
 	});
-
+	useEffect(() => {
+		if (list) {
+			setCards(list.cards);
+		}
+	}, [list]);
 	const mutation = trpc.card.createCard.useMutation();
 
 	const createCard = async () => {
 		if (inputName != '') {
-			mutation.mutate({ name: inputName, body: inputBody, listId: listId });
-			setInputName('');
-			setInputBody('');
+			const data = await mutation.mutateAsync({
+				name: inputName,
+				body: inputBody,
+				listId: listId,
+			});
+			if (data.error == null && data.data) {
+				setInputName('');
+				setInputBody('');
+				setCards([...cards, data.data]);
+			}
 		}
 	};
-	const deleteMutation = trpc.list.deleteList.useMutation();
+	const deleteMutation = trpc.card.deleteCard.useMutation();
 
-	const deleteList = async () => {
-		deleteMutation.mutate({ listId: listId });
+	const deleteCard = async (cardId: string) => {
+		const data = await deleteMutation.mutateAsync({ cardId: cardId });
+		if (data.erorr == null) {
+			setCards(cards.filter((card) => card.id != cardId));
+		}
 	};
 
 	if (isLoading) {
@@ -46,7 +65,7 @@ const ListModal: React.FC<ListModalProps> = ({ listId }) => {
 					<div className='flex flex-row gap-2'>
 						<button
 							type='button'
-							onClick={() => deleteList()}
+							onClick={() => deleteList(list.id)}
 							className='rounded-md bg-red-400 p-2 hover:bg-red-600 hover:text-white'
 						>
 							<svg
@@ -72,7 +91,7 @@ const ListModal: React.FC<ListModalProps> = ({ listId }) => {
 					<input
 						type='text'
 						name='name'
-						className='p-1 rounded-md text-black'
+						className='rounded-md p-1 text-black'
 						value={inputName}
 						onChange={(e) => setInputName(e.target.value)}
 					/>
@@ -80,14 +99,14 @@ const ListModal: React.FC<ListModalProps> = ({ listId }) => {
 					<input
 						type='text'
 						name='body'
-						className='p-1 rounded-md text-black'
+						className='rounded-md p-1 text-black'
 						value={inputBody}
 						onChange={(e) => setInputBody(e.target.value)}
 					/>
 					<button
 						type='button'
 						onClick={() => createCard()}
-						className='flex rounded-md bg-green-400 p-2 hover:bg-green-600 hover:text-white justify-center'
+						className='flex justify-center rounded-md bg-green-400 p-2 hover:bg-green-600 hover:text-white'
 					>
 						<svg
 							xmlns='http://www.w3.org/2000/svg'
@@ -106,8 +125,10 @@ const ListModal: React.FC<ListModalProps> = ({ listId }) => {
 					</button>
 				</div>
 				<div className='flex flex-col gap-2 p-2'>
-					{list.cards.map((card) => {
-						return <CardModal key={card.id} card={card} />;
+					{cards.map((card) => {
+						return (
+							<CardModal key={card.id} card={card} deleteCard={deleteCard} />
+						);
 					})}
 				</div>
 			</div>

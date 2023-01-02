@@ -2,12 +2,14 @@ import { z } from 'zod';
 import { router, protectedProcedure } from '../trpc';
 
 export const boardRouter = router({
-	getAllBoards: protectedProcedure.query(({ ctx }) => {
-		return ctx.prisma.board.findMany({
+	getAllBoards: protectedProcedure.query(async ({ ctx }) => {
+		const data = await ctx.prisma.board.findMany({
 			where: {
 				userId: ctx.session.user.id,
 			},
 		});
+
+		return data;
 	}),
 
 	getBoard: protectedProcedure
@@ -36,14 +38,16 @@ export const boardRouter = router({
 		)
 		.mutation(async ({ ctx, input }) => {
 			try {
-				await ctx.prisma.board.create({
+				const board = await ctx.prisma.board.create({
 					data: {
 						name: input.name,
 						user: { connect: { id: ctx.session.user.id } },
 					},
 				});
+				return { data: board, error: '' };
 			} catch (error) {
 				console.log(error);
+				return { data: null, error: error };
 			}
 		}),
 	deleteBoard: protectedProcedure
@@ -59,8 +63,10 @@ export const boardRouter = router({
 						id: input.boardId,
 					},
 				});
+				return { data: null, error: null };
 			} catch (error) {
 				console.log(error);
+				return { data: null, erorr: error };
 			}
 		}),
 });

@@ -1,25 +1,21 @@
 import type { Card } from '@prisma/client';
-import { trpc } from '../utils/trpc';
+import type { Dispatch } from 'react';
 
 interface CardModalProps {
 	card: Card;
+	deleteCard: Dispatch<string>;
 }
 
-const CardModal: React.FC<CardModalProps> = ({ card }) => {
-	const deleteMutation = trpc.card.deleteCard.useMutation();
-
-	const deleteCard = async () => {
-		deleteMutation.mutate({ cardId: card.id });
-	};
+const CardModal: React.FC<CardModalProps> = ({ card, deleteCard }) => {
 	if (card) {
 		return (
-			<div className='flex w-full flex-col rounded-xl bg-[#423159] text-white overflow-hidden'>
+			<div className='flex w-full flex-col overflow-hidden rounded-xl bg-[#423159] text-white'>
 				<div className='flex flex-row justify-between bg-[#110422] p-2'>
 					<h3 className='text-l self-center font-bold'>{card?.name}</h3>{' '}
 					<div className='flex flex-row'>
 						<button
 							type='button'
-							onClick={() => deleteCard()}
+							onClick={() => deleteCard(card.id)}
 							className='rounded-md bg-red-400 p-2 hover:bg-red-600 hover:text-white'
 						>
 							<svg
@@ -39,9 +35,7 @@ const CardModal: React.FC<CardModalProps> = ({ card }) => {
 						</button>
 					</div>
 				</div>
-				<div className='w-full p-2 text-white'>
-					{card.body}
-				</div>
+				<div className='w-full p-2 text-white'>{card.body}</div>
 			</div>
 		);
 	} else {

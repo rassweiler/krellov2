@@ -4,8 +4,8 @@ import { router, protectedProcedure } from '../trpc';
 export const listRouter = router({
 	getList: protectedProcedure
 		.input(z.object({ listId: z.string() }))
-		.query(({ ctx, input }) => {
-			return ctx.prisma.list.findFirst({
+		.query(async ({ ctx, input }) => {
+			const data = await ctx.prisma.list.findFirst({
 				where: {
 					id: input.listId,
 				},
@@ -13,6 +13,7 @@ export const listRouter = router({
 					cards: true,
 				},
 			});
+			return data;
 		}),
 
 	createList: protectedProcedure
@@ -24,14 +25,16 @@ export const listRouter = router({
 		)
 		.mutation(async ({ ctx, input }) => {
 			try {
-				await ctx.prisma.list.create({
+				const list = await ctx.prisma.list.create({
 					data: {
 						name: input.name,
 						board: { connect: { id: input.boardId } },
 					},
 				});
+				return { data: list, error: null };
 			} catch (error) {
 				console.log(error);
+				return { data: null, erorr: error };
 			}
 		}),
 	deleteList: protectedProcedure
@@ -47,8 +50,10 @@ export const listRouter = router({
 						id: input.listId,
 					},
 				});
+				return { data: null, error: null };
 			} catch (error) {
 				console.log(error);
+				return { data: null, erorr: error };
 			}
 		}),
 });
