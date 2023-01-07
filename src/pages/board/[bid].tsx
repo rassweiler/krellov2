@@ -8,7 +8,6 @@ const BoardPage: NextPage = () => {
 	const { data: sessionData } = useSession();
 	const query = useRouter().query;
 
-	console.log('BID:', query.bid);
 	return (
 		<>
 			<Head>
