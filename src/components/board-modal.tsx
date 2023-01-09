@@ -77,7 +77,7 @@ const BoardModal: React.FC<BoardModalProps> = ({ currentBoard }) => {
 					<div className='flex flex-row gap-4'>
 						{showAdd && (
 							<form onSubmit={createList} className='flex flex-row gap-2'>
-								<label htmlFor='Name'>Name</label>
+								<label htmlFor='Name' className='self-center'>Name</label>
 								<input
 									className='rounded-md text-black'
 									type='text'

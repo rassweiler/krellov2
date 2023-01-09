@@ -90,7 +90,7 @@ const BoardList: React.FC = () => {
 							className='m-2 flex flex-row justify-center gap-4'
 							onSubmit={createBoard}
 						>
-							<label htmlFor='name' title='Name' className='text-white'>
+							<label htmlFor='name' title='Name' className='self-center text-white'>
 								Name
 							</label>
 							<input
