@@ -1,5 +1,5 @@
 import type { Card } from '@prisma/client';
-import type { Dispatch} from 'react';
+import type { Dispatch } from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { trpc } from '../utils/trpc';
@@ -14,6 +14,7 @@ const ListModal: React.FC<ListModalProps> = ({ listId, deleteList }) => {
 	const [inputName, setInputName] = useState<string>('');
 	const [inputBody, setInputBody] = useState<string>('');
 	const [cards, setCards] = useState<Card[]>([]);
+	const [showAdd, setShowAdd] = useState<boolean>(false);
 	const { data: list, isLoading } = trpc.list.getList.useQuery({
 		listId: listId,
 	});
@@ -24,7 +25,8 @@ const ListModal: React.FC<ListModalProps> = ({ listId, deleteList }) => {
 	}, [list]);
 	const mutation = trpc.card.createCard.useMutation();
 
-	const createCard = async () => {
+	const createCard = async (event: React.FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
 		if (inputName != '') {
 			const data = await mutation.mutateAsync({
 				name: inputName,
@@ -45,6 +47,11 @@ const ListModal: React.FC<ListModalProps> = ({ listId, deleteList }) => {
 		if (data.erorr == null) {
 			setCards(cards.filter((card) => card.id != cardId));
 		}
+	};
+
+	const toggleShowAdd = async () => {
+		const currentValue = showAdd;
+		setShowAdd(!currentValue);
 	};
 
 	if (isLoading) {
@@ -85,45 +92,78 @@ const ListModal: React.FC<ListModalProps> = ({ listId, deleteList }) => {
 						</button>
 					</div>
 				</div>
-				<div className='flex w-full flex-col gap-1 p-2'>
-					<div className='w-full text-center'>Add New Card</div>
-					<label htmlFor='name'>Name</label>
-					<input
-						type='text'
-						name='name'
-						className='rounded-md p-1 text-black'
-						value={inputName}
-						onChange={(e) => setInputName(e.target.value)}
-					/>
-					<label htmlFor='body'>Body</label>
-					<input
-						type='text'
-						name='body'
-						className='rounded-md p-1 text-black'
-						value={inputBody}
-						onChange={(e) => setInputBody(e.target.value)}
-					/>
-					<button
-						type='button'
-						onClick={() => createCard()}
-						className='flex justify-center rounded-md bg-green-400 p-2 hover:bg-green-600 hover:text-white'
+				{showAdd && (
+					<form
+						className='flex w-full flex-col gap-1 p-2'
+						onSubmit={createCard}
 					>
+						<div className='w-full text-center'>Add New Card</div>
+						<label htmlFor='name'>Name</label>
+						<input
+							type='text'
+							name='name'
+							className='rounded-md p-1 text-black'
+							value={inputName}
+							onChange={(e) => setInputName(e.target.value)}
+						/>
+						<label htmlFor='body'>Body</label>
+						<input
+							type='text'
+							name='body'
+							className='rounded-md p-1 text-black'
+							value={inputBody}
+							onChange={(e) => setInputBody(e.target.value)}
+						/>
+						<button
+							type='submit'
+							className='flex justify-center rounded-md bg-green-400 p-2 hover:bg-green-600 hover:text-white'
+						>
+							Add Card
+						</button>
+					</form>
+				)}
+				<button
+					type='button'
+					title={showAdd ? 'Hide Add Form' : 'Show Add Form'}
+					onClick={toggleShowAdd}
+					className={
+						showAdd
+							? 'mx-2 flex justify-center rounded-md bg-red-400 p-2 hover:bg-red-800 hover:text-white'
+							: 'mx-2 flex justify-center rounded-md bg-green-400 p-2 hover:bg-green-800 hover:text-white'
+					}
+				>
+					{showAdd ? (
 						<svg
 							xmlns='http://www.w3.org/2000/svg'
 							fill='none'
 							viewBox='0 0 24 24'
 							strokeWidth={1.5}
 							stroke='currentColor'
-							className='h-5 w-5'
+							className='h-6 w-6'
 						>
 							<path
 								strokeLinecap='round'
 								strokeLinejoin='round'
-								d='M12 4.5v15m7.5-7.5h-15'
+								d='M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636'
 							/>
 						</svg>
-					</button>
-				</div>
+					) : (
+						<svg
+							xmlns='http://www.w3.org/2000/svg'
+							fill='none'
+							viewBox='0 0 24 24'
+							strokeWidth={1.5}
+							stroke='currentColor'
+							className='h-6 w-6'
+						>
+							<path
+								strokeLinecap='round'
+								strokeLinejoin='round'
+								d='M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z'
+							/>
+						</svg>
+					)}
+				</button>
 				<div className='flex flex-col gap-2 p-2'>
 					{cards.map((card) => {
 						return (
