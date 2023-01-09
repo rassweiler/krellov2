@@ -116,8 +116,8 @@ const BoardList: React.FC = () => {
 						onClick={toggleShowAdd}
 						className={
 							showAdd
-								? 'm-2 rounded-md bg-red-200 p-2 hover:bg-red-500 hover:text-white'
-								: 'm-2 rounded-md bg-green-200 p-2 hover:bg-green-500 hover:text-white'
+								? 'm-2 rounded-md bg-red-400 p-2 hover:bg-red-800 hover:text-white'
+								: 'm-2 rounded-md bg-green-400 p-2 hover:bg-green-800 hover:text-white'
 						}
 					>
 						{showAdd ? (
