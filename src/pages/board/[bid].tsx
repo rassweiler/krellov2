@@ -17,9 +17,7 @@ const BoardPage: NextPage = () => {
 			</Head>
 			<main className='flex min-h-screen flex-col items-center bg-gradient-to-b from-[#2C2C45] to-[#060723]'>
 				<div className='container flex flex-col items-center justify-center gap-12 px-4 py-16 '>
-					<h1 className='text-sm font-extrabold tracking-tight text-white sm:text-[5rem]'>
-						<span className='text-[#d8534e]'>Board</span>
-					</h1>
+				
 					{sessionData && typeof query.bid == 'string' ? (
 						<BoardModal currentBoard={query.bid}></BoardModal>
 					) : (
