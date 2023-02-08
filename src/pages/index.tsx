@@ -25,9 +25,14 @@ const Home: NextPage = () => {
 					{sessionData ? (
 						<BoardList />
 					) : (
+							<>
 						<div className='flex flex-col items-center gap-2 text-white'>
 							Please login to view your boards...
 						</div>
+						<div className='flex flex-col items-center gap-2 text-white'>
+							This app was created using: Typescript, Nextjs, Tailwind, tRPC, Prisma, and NextAuth. It's hosted using Vercel.
+						</div>
+						</>
 					)}
 				</div>
 			</main>
