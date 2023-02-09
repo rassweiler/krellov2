@@ -30,7 +30,7 @@ const Home: NextPage = () => {
 							Please login to view your boards...
 						</div>
 						<div className='flex flex-col items-center gap-2 text-white'>
-							This app was created using: Typescript, Nextjs, Tailwind, tRPC, Prisma, and NextAuth. It's hosted using Vercel.
+							This app was created using: Typescript, Nextjs, Tailwind, tRPC, Prisma, and NextAuth. It is hosted using Vercel.
 						</div>
 						</>
 					)}
@@ -48,7 +48,6 @@ const BoardList: React.FC = () => {
 	const [boards, setBoards] = useState<Board[]>([]);
 	const [showAdd, setShowAdd] = useState<boolean>(false);
 	const mutation = trpc.board.createBoard.useMutation();
-	const router = useRouter();
 	useEffect(() => {
 		if (boardsData) {
 			setBoards(boardsData);
@@ -58,7 +57,7 @@ const BoardList: React.FC = () => {
 	const createBoard = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		if (input != '') {
-			const { data, error } = await mutation.mutateAsync({ name: input });
+			const { data} = await mutation.mutateAsync({ name: input });
 			if (data != null) {
 				setBoards([...boards, data]);
 				setInput('');

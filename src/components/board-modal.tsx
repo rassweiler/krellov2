@@ -45,15 +45,6 @@ const BoardModal: React.FC<BoardModalProps> = ({ currentBoard }) => {
 		}
 	};
 
-	const deleteMutation = trpc.board.deleteBoard.useMutation();
-
-	const deleteBoard = async () => {
-		await deleteMutation.mutate({ boardId: currentBoard });
-		if (deleteMutation.error == null) {
-			router.push('/');
-		}
-	};
-
 	const toggleShowAdd = async () => {
 		const currentValue = showAdd;
 		setShowAdd(!currentValue);
