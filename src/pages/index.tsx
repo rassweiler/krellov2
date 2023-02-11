@@ -6,6 +6,7 @@ import type { Board } from '@prisma/client';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { BoardCard } from '../components/board-card';
+import Image from 'next/image';
 
 const Home: NextPage = () => {
 	const { data: sessionData } = useSession();
@@ -20,18 +21,22 @@ const Home: NextPage = () => {
 			<main className='flex min-h-screen flex-col items-center bg-gradient-to-b from-[#2C2C45] to-[#060723]'>
 				<div className='container flex flex-col items-center justify-center gap-12 px-4 py-16 '>
 					<h1 className='text-sm font-extrabold tracking-tight text-white sm:text-[5rem]'>
-						<span className='text-[#d8534e]'>Krello</span> - A Simple Kanban 
+						<span className='text-[#d8534e]'>Krello</span> - A Simple Kanban
 					</h1>
 					{sessionData ? (
 						<BoardList />
 					) : (
-							<>
-						<div className='flex flex-col items-center gap-2 text-white'>
-							Please login to view your boards...
-						</div>
-						<div className='flex flex-col items-center gap-2 text-white'>
-							This app was created using: Typescript, Nextjs, Tailwind, tRPC, Prisma, and NextAuth. It is hosted using Vercel.
-						</div>
+						<>
+							<div className='flex flex-col items-center gap-2 text-white'>
+								Please login to view your boards...
+							</div>
+							<div className='flex flex-col items-center gap-2 text-white'>
+								This app was created using: Typescript, Nextjs, Tailwind, tRPC, Prisma, and NextAuth. It is hosted using Vercel.
+							</div>
+							<div className='items-center'>
+								<Image src='/Boardlist.webp' alt='Image of available boards' width={900} height={900} />
+								<Image src='/Board.webp' alt='Image of a board' width={900} height={900} />
+							</div>
 						</>
 					)}
 				</div>
@@ -57,7 +62,7 @@ const BoardList: React.FC = () => {
 	const createBoard = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		if (input != '') {
-			const { data} = await mutation.mutateAsync({ name: input });
+			const { data } = await mutation.mutateAsync({ name: input });
 			if (data != null) {
 				setBoards([...boards, data]);
 				setInput('');
