@@ -11,8 +11,8 @@ To learn next, prisma, trpc, and zod.
 A demo is hosted on vercel and prisma: [Demo](https://krello.kylerassweiler.ca)
 
 ## Screenshots
-![Boards](.documentation/board-list.webp)  
-![Lists](.documentation/list-list.webp)  
+![Board List](.documentation/Boardlist.webp)  
+![Board View](.documentation/Board.webp)  
 
 ## Todo:
 - [x] Setup consistent styling.
